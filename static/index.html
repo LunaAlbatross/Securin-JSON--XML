@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to XML Converter | Cyber Tools</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JSON <span class="highlight">to</span> XML Converter</h1>
+            <p>Paste your JSON payload below to parse and normalize it into XML format.</p>
+        </header>
+
+        <main class="converter-grid">
+            <!-- Input Section -->
+            <div class="panel input-panel">
+                <div class="panel-header">
+                    <h2>Input Data (JSON)</h2>
+                    <button id="loadExampleBtn" class="btn secondary">Load Example</button>
+                </div>
+                <textarea id="jsonInput" placeholder='{\n  "organization": {\n    "name": "Securin"\n  }\n}'></textarea>
+                <div id="errorMessage" class="error-msg hidden">Invalid JSON Format!</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="convertBtn" class="btn primary">
+                    <span>Convert Payload</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+            <!-- Output Section -->
+            <div class="panel output-panel">
+                <div class="panel-header">
+                    <h2>Output Data (XML)</h2>
+                    <button id="copyBtn" class="btn secondary">Copy XML</button>
+                </div>
+                <textarea id="xmlOutput" readonly placeholder="Parsed XML will appear here..."></textarea>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
