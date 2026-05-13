@@ -1,0 +1,18 @@
+{
+    "system": {
+        "id": "SYS-01",
+        "status": "online",
+        "nodes": [
+            "node1",
+            "node2",
+            {
+                "nested_node": true,
+                "value": null
+            }
+        ],
+        "metrics": {
+            "cpu": 45.5,
+            "memory": 1024
+        }
+    }
+}

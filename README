@@ -1,0 +1,32 @@
+JSON to XML Project
+
+This project is a Python tool that takes a JSON file and converts it into a specific XML format.
+
+How to Build the Project:
+Since I only used the standard Python libraries, there is no big build process. I have included a simple script called build.sh to make everything ready. You can run it like this:
+
+    chmod +x build.sh
+    ./build.sh
+
+How to Run the Script:
+The script needs two things: the JSON file you want to convert and the name of the XML file you want to create. Run it with this command:
+
+    python3 json_to_xml.py <input.json> <output.xml>
+
+For example:
+    python3 json_to_xml.py examples/test1.json output.xml
+
+If you don't give exactly two file paths, the script will show you the correct way to use it.
+
+Libraries I used:
+I decided to stick with the standard libraries that come with Python so that anyone can run this without installing anything extra.
+- json: Used to read the JSON files (https://docs.python.org/3/library/json.html)
+- sys: Used to handle the command-line inputs (https://docs.python.org/3/library/sys.html)
+
+Design and Approach:
+I used a recursive function for the conversion. JSON is basically a tree of data, so a function that can call itself is the best way to dig through nested objects and arrays. The code checks the type of each item (like if it's a string, number, or list) and then wraps it in the correct XML tag. For "null" values, I made sure it uses the self-closing tag (<null/>) as requested.
+
+Test Files:
+I have included a folder called "examples" with some JSON files to test the script:
+- examples/test1.json: A basic JSON file with names, numbers, and booleans.
+- examples/test2.json: A more complex one with nested arrays and objects to show the recursion works.

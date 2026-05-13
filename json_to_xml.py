@@ -1,5 +1,14 @@
 import json
 import os
+import html
+
+def escape_xml(s):
+    """
+    Escapes special characters for XML.
+    """
+    if not isinstance(s, str):
+        return s
+    return html.escape(s)
 
 def json_to_xml(data, name=None):
     """
@@ -23,7 +32,7 @@ def json_to_xml(data, name=None):
         return xml
 
     elif isinstance(data, str):
-        return f'<string{name_attr}>{data}</string>'
+        return f'<string{name_attr}>{escape_xml(data)}</string>'
 
     elif isinstance(data, bool):
         # JSON booleans are true/false, Python's are True/False
@@ -41,42 +50,38 @@ def json_to_xml(data, name=None):
         return f'<unknown{name_attr}>{data}</unknown>'
 
 def main():
-    input_file = "example_input.json"
-    output_file = "my_output.xml"
+    import sys
     
-    print(f"Reading {input_file}...")
+    # Check for correct number of arguments (script_name, input_file, output_file)
+    if len(sys.argv) != 3:
+        print("Usage: python3 json_to_xml.py <input.json> <output.xml>")
+        sys.exit(1)
+        
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+    
+    # Read the JSON input
     try:
-        with open(input_file, 'r') as f:
+        with open(input_file, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
     except FileNotFoundError:
-        print(f"Error: {input_file} not found. Make sure the file exists in the JSON-XML directory.")
-        return
-
-    print("Converting JSON to XML...")
-    # The root of the JSON file is typically an object (dict)
+        print(f"Error: The input file '{input_file}' was not found.")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: The file '{input_file}' contains invalid JSON. {e}")
+        sys.exit(1)
+        
+    # Convert to XML
     xml_output = json_to_xml(json_data)
-
-    print(f"Writing to {output_file}...")
-    with open(output_file, 'w') as f:
-        f.write(xml_output)
     
-    print("Conversion complete!")
-    
-    # Read the expected output to compare
+    # Write the XML output
     try:
-        with open('example_output.xml', 'r') as f:
-            expected_output = f.read().strip()
-            
-        if xml_output == expected_output:
-            print("\nSUCCESS: The generated XML matches exactly with example_output.xml!")
-        else:
-            print("\nWARNING: The generated XML differs from example_output.xml.")
-            print("\nGenerated:")
-            print(xml_output)
-            print("\nExpected:")
-            print(expected_output)
-    except FileNotFoundError:
-        print("\nCould not find example_output.xml to verify against.")
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(xml_output)
+        print(f"Successfully converted '{input_file}' to '{output_file}'.")
+    except Exception as e:
+        print(f"Error: Failed to write to output file '{output_file}'. {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
