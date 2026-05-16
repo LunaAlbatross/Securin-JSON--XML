@@ -6,7 +6,6 @@ def escape_xml(s):
     return html.escape(s)
 
 def json_to_xml(data, name=None):
-    # Recursively converts JSON data types to specific XML tags.
     name_attr = f' name="{name}"' if name is not None else ''
 
     if isinstance(data, dict):
@@ -27,7 +26,6 @@ def json_to_xml(data, name=None):
         return f'<string{name_attr}>{escape_xml(data)}</string>'
 
     elif isinstance(data, bool):
-        # JSON booleans are true/false, Python's are True/False
         str_val = str(data).lower()
         return f'<boolean{name_attr}>{str_val}</boolean>'
 
