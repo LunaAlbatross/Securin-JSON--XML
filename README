@@ -1,32 +1,64 @@
-JSON to XML Project
+# JSON to XML Project
 
-This project is a Python tool that takes a JSON file and converts it into a specific XML format.
+This project is a Python tool that takes a JSON file and converts it into a specific XML format. It can be used as a **Command Line Interface (CLI)** tool or as a **Web API**.
 
-How to Build the Project:
-Since I only used the standard Python libraries, there is no big build process. I have included a simple script called build.sh to make everything ready. You can run it like this:
+## Features
+- **CLI Mode**: Convert files directly from your terminal using standard Python libraries.
+- **Web API Mode**: A modern FastAPI-based service with automatic Swagger documentation.
+- **Recursive Conversion**: Handles deeply nested JSON objects and arrays.
+- **XML Standards**: Correctly handles null values (using `<null/>`) and escapes special characters.
 
-    chmod +x build.sh
-    ./build.sh
+---
 
-How to Run the Script:
-The script needs two things: the JSON file you want to convert and the name of the XML file you want to create. Run it with this command:
+## 1. Command Line Interface (CLI)
 
-    python3 json_to_xml.py <input.json> <output.xml>
+The CLI version uses only standard Python libraries, so no extra installation is required.
 
-For example:
-    python3 json_to_xml.py examples/test1.json output.xml
+### How to Run:
+The script requires two arguments: the input JSON file and the desired output XML file.
 
-If you don't give exactly two file paths, the script will show you the correct way to use it.
+```bash
+python3 json_to_xml.py <input.json> <output.xml>
+```
 
-Libraries I used:
-I decided to stick with the standard libraries that come with Python so that anyone can run this without installing anything extra.
-- json: Used to read the JSON files (https://docs.python.org/3/library/json.html)
-- sys: Used to handle the command-line inputs (https://docs.python.org/3/library/sys.html)
+**Example:**
+```bash
+python3 json_to_xml.py examples/test1.json output.xml
+```
 
-Design and Approach:
-I used a recursive function for the conversion. JSON is basically a tree of data, so a function that can call itself is the best way to dig through nested objects and arrays. The code checks the type of each item (like if it's a string, number, or list) and then wraps it in the correct XML tag. For "null" values, I made sure it uses the self-closing tag (<null/>) as requested.
+---
 
-Test Files:
-I have included a folder called "examples" with some JSON files to test the script:
-- examples/test1.json: A basic JSON file with names, numbers, and booleans.
-- examples/test2.json: A more complex one with nested arrays and objects to show the recursion works.
+## 2. Web API (FastAPI)
+
+The Web API allows you to perform conversions through HTTP requests and provides an interactive interface.
+
+### Prerequisites:
+To run the Web API, you need to install the following dependencies:
+```bash
+pip install fastapi uvicorn
+```
+
+### How to Start the Server:
+Run the `app.py` file:
+```bash
+python3 app.py
+```
+The server will start at `http://127.0.0.1:5000`.
+
+### Interactive Documentation (Swagger UI):
+Once the server is running, you can test the API directly from your browser:
+- **Swagger UI**: [http://127.0.0.1:5000/docs](http://127.0.0.1:5000/docs)
+- **ReDoc**: [http://127.0.0.1:5000/redoc](http://127.0.0.1:5000/redoc)
+
+You can use the `/convert` endpoint to paste JSON data and receive raw XML in response.
+
+---
+
+## Project Structure
+- `json_to_xml.py`: Core logic and CLI entry point.
+- `app.py`: FastAPI server implementation.
+- `examples/`: Sample JSON files for testing.
+- `build.sh`: Simple script to prepare the environment.
+
+## Design and Approach
+I used a recursive function for the conversion. JSON is a tree-like structure, so recursion is the most efficient way to process nested objects and arrays. The code identifies data types (strings, numbers, booleans, nulls) and wraps them in their corresponding XML tags as per the requirements.

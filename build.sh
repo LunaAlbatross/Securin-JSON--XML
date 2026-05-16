@@ -1,6 +1,5 @@
 #!/bin/bash
-# Build script for JSON to XML Converter
-# Since Python does not need compilation, we just make the script executable.
+
 
 chmod +x json_to_xml.py
 

@@ -1,20 +1,12 @@
-import json
-import os
-import html
+import json,html
 
 def escape_xml(s):
-    """
-    Escapes special characters for XML.
-    """
     if not isinstance(s, str):
         return s
     return html.escape(s)
 
 def json_to_xml(data, name=None):
-    """
-    Recursively converts JSON data types to specific XML tags.
-    """
-    # Create the name attribute string if a name is provided
+    # Recursively converts JSON data types to specific XML tags.
     name_attr = f' name="{name}"' if name is not None else ''
 
     if isinstance(data, dict):
@@ -27,7 +19,7 @@ def json_to_xml(data, name=None):
     elif isinstance(data, list):
         xml = f'<array{name_attr}>'
         for val in data:
-            xml += json_to_xml(val)  # List items do not have names
+            xml += json_to_xml(val)  
         xml += '</array>'
         return xml
 
@@ -46,13 +38,11 @@ def json_to_xml(data, name=None):
         return f'<null{name_attr}/>'
 
     else:
-        # Fallback for any unknown types
         return f'<unknown{name_attr}>{data}</unknown>'
 
 def main():
     import sys
     
-    # Check for correct number of arguments (script_name, input_file, output_file)
     if len(sys.argv) != 3:
         print("Usage: python3 json_to_xml.py <input.json> <output.xml>")
         sys.exit(1)
@@ -60,7 +50,6 @@ def main():
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     
-    # Read the JSON input
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
@@ -71,10 +60,8 @@ def main():
         print(f"Error: The file '{input_file}' contains invalid JSON. {e}")
         sys.exit(1)
         
-    # Convert to XML
     xml_output = json_to_xml(json_data)
     
-    # Write the XML output
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(xml_output)
